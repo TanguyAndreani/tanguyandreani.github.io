@@ -2,7 +2,7 @@ name: Jekyll site CI
 
 on:
   push:
-    branches: [ master, TanguyAndreani-patch-1 ]
+    branches: [ master, TanguyAndreani-patch-2 ]
   pull_request:
     branches: [ master ]
 
@@ -24,7 +24,7 @@ jobs:
       uses: sylvanld/action-storage@v1
       with:
         # Path to the file that will be saved
-        src: ${{ github.workspace }}/_site/
+        src: ${{ github.workspace }}/_site/*
         # Path in storage branch where the file will be saved
         dst: /docs
         # Commit message associated with this modification in storage branch
