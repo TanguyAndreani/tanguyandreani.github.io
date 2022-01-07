@@ -24,7 +24,7 @@ jobs:
       uses: sylvanld/action-storage@v1
       with:
         # Path to the file that will be saved
-        src: /srv/jekyll/_site
+        src: ${{ github.workspace }}/_site
         # Path in storage branch where the file will be saved
         dst: /
         # Commit message associated with this modification in storage branch
