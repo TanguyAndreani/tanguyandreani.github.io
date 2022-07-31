@@ -1,6 +1,5 @@
 
 @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&display=swap');
-
   
 .container {
   max-width: 500px;
@@ -24,20 +23,6 @@ body {
   color: #D61C4E;
 }
      
-     
-.first-paragraph:after {
-  border-bottom: 4px solid #111;
-  display: inline-block;
-  position: absolute;
-  bottom: -0.5em;
-  right: -0.5em;
-  content: " ";
-  width:50px;
-  height: 50px;
-  border-right: 4px solid #111;
-  border-radius: 4px 0;
-  color: white;
-}
 .first-paragraph {
   position: relative;
 }
@@ -47,10 +32,15 @@ body {
 .hello-emoji {
   /*! float: left; */
   position: absolute;
-  left: -118px;
+  left: -250px;
   margin: 0;
-  font-size: 1.5em;
+  color:#ccc;
   /*! line-height: 1.6em; */
-  top: -13px;
 }
-  
+
+.blog-link a, .blog-link a:visited {
+      text-decoration: none;
+      border-bottom: 1px solid;
+      font-style: italic;
+      color: #3AB4F2;
+}
