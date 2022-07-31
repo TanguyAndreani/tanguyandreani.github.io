@@ -31,9 +31,11 @@ body {
   position: absolute;
   bottom: -0.5em;
   right: -0.5em;
-  content: " attr";
+  content: " ";
+  width:50px;
+  height: 50px;
   border-right: 4px solid #111;
-  border-radius: 10px 0;
+  border-radius: 4px 0;
   color: white;
 }
 .first-paragraph {
