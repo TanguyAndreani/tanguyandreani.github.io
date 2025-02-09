@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/typesafe.css" /><link rel="stylesheet" href="/pandoc.css" /><link rel="stylesheet" href="/algol.css" /><title>Blog / Tanguy Andreani</title><link rel="stylesheet" href="/index.css" /></head><body><h1 id="blog--tanguy-andreani">Blog / Tanguy Andreani</h1>
+
+<ul>
+  <li>2024/02/08 ➡️ <a href="celeste">Patching Celeste on Mac: Wireless Xbox controller</a></li>
+</ul>
+
+<p><em>Feel free to use a browser extension to translate french articles on-the-fly.</em>
+  For any comment, <a href="mailto:dev@tanguyandreani.me">use email</a>. There is also an
+  hidden Discord server.</p>
+
+<p>I write opiniated guides about programming, such as <a href="#">C/C++ notes.pdf</a> and <a href="#">JVM notes.pdf</a>.</p>
+
+<p>Most of this blog orbitates around concepts such as improvisation, story-telling and reverse-engineering.
+  No AI is involved in the writing process.</p>
+
+<p><input type="text" placeholder="Filter" name="searchField" /></p>
+
+<h1 id="macos--m1">MacOS / M1</h1>
+
+<ul>
+  <li>2024/02/08 ➡️ <a href="celeste">Patching Celeste on Mac: Wireless Xbox controller</a></li>
+</ul>
+
+<footer>
+    <p><i>
+      Inspiré des blogs de <a href="https://fabiensanglard.net/">Fabien Sanglard</a>
+      et <a href="https://jvns.ca/">Julia Evans</a>.</i>
+
+<script>
+const input = document.querySelector('input')
+const ps = document.querySelectorAll('li')
+const hs = document.querySelectorAll('h1')
+input.onkeyup = () => {
+
+  var i = 0;
+  ps.forEach(p => {
+    i++
+    p.hidden = i > 5 && !p.innerText.toLowerCase().includes(input.value.toLowerCase())
+  })
+
+
+  var j = 0;
+  hs.forEach(h => {
+    j++;
+    if (j == 1) return;
+    var ul = h.nextSibling;
+    while (ul.nodeName != 'UL') {
+      ul = ul.nextSibling
+    }
+    h.hidden = [].slice.call(ul.children).reduce((acc, curr) => {return (acc && curr.hidden)}, 1)
+  })
+}
+</script>
+
+<script>
+document.onkeydown = (event) => {
+  if (event.key === "/") {
+    event.preventDefault()
+  document.querySelector("[name='searchField']").focus();
+  }
+  if (event.key === "Escape") {
+    document.activeElement.blur() }
+}
+</script>
+
+  </p>
+</footer>
+
+</body></html>

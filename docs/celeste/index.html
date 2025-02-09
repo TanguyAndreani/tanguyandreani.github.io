@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/typesafe.css" /><link rel="stylesheet" href="/pandoc.css" /><link rel="stylesheet" href="/algol.css" /><title>Patching Celeste on Mac: Wireless Xbox controller</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+</head><body>
+      <header id="title-block-header">
+        
+<div class="home-link">
+  <a href="/">← back</a>
+</div>
+
+        <h1 class="title">Patching Celeste on Mac: Wireless Xbox controller</h1>
+        <p class="date">2024-02-08</p>
+      </header>
+    <div class="abstract">
+<p>
+Celeste ignores my Xbox wireless controller on MacOS. Luckily manually upgrading a dynamic library
+inside an app can sometimes get you new features for free.
+</p>
+</div>
+
+<p>My controller works with other MacOS games, but not this one. And to keep meddling with settings seems futile at this point.</p>
+
+<p>How does Celeste handle controller input? 
+By looking at the dynamic libraries shipped alongside Celeste, we should be able to pinpoint the issue.</p>
+
+<p>Go to your Steam library and navigate your game’s local files from there. App files are just folders with an extension.
+Any app file can be unfolded
+with a right-click.</p>
+
+<p>In <code>Celeste.app/</code> we find <code>libSDL2-2.0.0.dylib</code>, which indicates that Celeste is based on the SDL, which stands for
+Simple Directmedia Library: a pretty general and well known library that abstracts
+away
+graphics hardware, input devices and audio devices among other things.</p>
+
+<p>We could try replacing it with a newer release. We hope the API has remained stable enough since 2.0.0.</p>
+
+<p>Recent releases of the libSDL for MacOS consists of a folder named <code>SDL.framework/</code>, with no
+dylib in sight. Luckily, I found that renaming <code>SDL2.framework/Versions/A/SDL2</code> to <code>libSDL2-2.0.0.dylib</code>
+does the job. Running both of these files through the <code>file(1)</code> command, we find that they are of the same type.</p>
+
+<p>My first attempt was to inject the newer SDL using the <code>DYLD_INSERT_LIBRARIES</code> variable. Try it out if you want.</p>
+
+<p>One option remains: to actually modify the game package and replace the old SDL.</p>
+
+<h1 id="codesigning">Codesigning</h1>
+
+<p>Having replaced the file, the game won’t load anymore. It could be that we’ve just broken it, or maybe
+code signing is to blame. By running the command <code>$PATH_TO_CELESTE_APP/Contents/MacOS/Celeste</code> in a terminal,
+we get the following output:</p>
+
+<pre><code>System.DllNotFoundException: libSDL2-2.0.0.dylib 
+</code></pre>
+
+<p>Since the file <em>is</em> in there, it looks like something bigger is preventing Celeste from loading it. We could
+try manually codesigning <code>Celeste.app/</code> and see what happens.</p>
+
+<p>I found that creating a new signing certificate in the OS Keychain and running the following command
+will finally make the operating system comply.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>codesign <span class="nt">--deep</span> <span class="nt">--force</span> <span class="nt">--verify</span> <span class="nt">--sign</span> <span class="s2">"MyCert"</span> <span class="nv">$PATH_TO_CELESTE_APP</span>
+</code></pre></div></div>
+
+<p>Running Celeste again, my wireless controller is instantly recognized without any configuration.</p>
+
+<footer>
+    <p><i>
+      Inspiré des blogs de <a href="https://fabiensanglard.net/">Fabien Sanglard</a>
+      et <a href="https://jvns.ca/">Julia Evans</a>.</i>
+
+  </p>
+</footer>
+
+</body></html>
