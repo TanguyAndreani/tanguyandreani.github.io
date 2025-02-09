@@ -295,10 +295,10 @@ code {
 
 code:not(pre code) {
   font-size: 0.85rem;
-  border: 1px dotted;
-  border-radius: 4px;
   padding: 0px 4px;
   margin: 0 2px;
+  background: #ceecff;
+  color: #3b3b3b;
 }
 
 .sidenote {
